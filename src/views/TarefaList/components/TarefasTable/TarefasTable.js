@@ -3,6 +3,8 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
+import TimerIcon from '@material-ui/icons/Timer';
+import DoneAllIcon from '@material-ui/icons/DoneAll';
 import { makeStyles } from '@material-ui/styles';
 import {
   Card,
@@ -12,7 +14,8 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Typography
+  Typography,
+  IconButton
 } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
@@ -55,6 +58,7 @@ const TarefasTable = props => {
                   <TableCell>Descrição</TableCell>
                   <TableCell>Categoria</TableCell>
                   <TableCell>Status</TableCell>
+                  <TableCell />
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -66,6 +70,11 @@ const TarefasTable = props => {
                       <TableCell>{tarefa.categoria}</TableCell>
                       <TableCell>
                         {tarefa.done ? 'Feito' : 'Pendente'}
+                      </TableCell>
+                      <TableCell>
+                        <IconButton color="secondary">
+                          {tarefa.done ? <DoneAllIcon /> : <TimerIcon />}
+                        </IconButton>
                       </TableCell>
                     </TableRow>
                   );
