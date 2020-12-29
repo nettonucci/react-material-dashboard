@@ -5,6 +5,7 @@ import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import TimerIcon from '@material-ui/icons/Timer';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { makeStyles } from '@material-ui/styles';
 import {
   Card,
@@ -59,6 +60,7 @@ const TarefasTable = props => {
                   <TableCell>Categoria</TableCell>
                   <TableCell>Status</TableCell>
                   <TableCell />
+                  <TableCell />
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -72,8 +74,18 @@ const TarefasTable = props => {
                         {tarefa.done ? 'Feito' : 'Pendente'}
                       </TableCell>
                       <TableCell>
-                        <IconButton onClick={e => props.alterarStatus(tarefa.id)} color="secondary">
+                        <IconButton
+                          color="secondary"
+                          onClick={e => props.alterarStatus(tarefa.id)}
+                        >
                           {tarefa.done ? <DoneAllIcon /> : <TimerIcon />}
+                        </IconButton>
+                      </TableCell>
+                      <TableCell>
+                        <IconButton
+                          onClick={e => props.deleteAction(tarefa.id)}
+                        >
+                          <DeleteIcon />
                         </IconButton>
                       </TableCell>
                     </TableRow>
