@@ -13,7 +13,6 @@ import {
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
-
 const schema = {
   email: {
     presence: { allowEmpty: false, message: 'is required' },
@@ -129,14 +128,13 @@ const SignIn = props => {
 
   const classes = useStyles();
 
-  const [email, setEmail] = useState('')
-
+  const [email, setEmail] = useState('');
 
   const handleSignIn = event => {
     event.preventDefault();
+    localStorage.setItem('email_usuario_logado', email);
     history.push('/');
   };
-
 
   return (
     <div className={classes.root}>
@@ -182,9 +180,7 @@ const SignIn = props => {
           xs={12}
         >
           <div className={classes.content}>
-            <div className={classes.contentHeader}>
-
-            </div>
+            <div className={classes.contentHeader} />
             <div className={classes.contentBody}>
               <form
                 className={classes.form}
@@ -196,7 +192,6 @@ const SignIn = props => {
                 >
                   Login
                 </Typography>
-                
 
                 <Typography
                   align="center"
@@ -212,7 +207,7 @@ const SignIn = props => {
                   label="Email"
                   name="email"
                   onChange={e => setEmail(e.target.value)}
-                  type="text"
+                  type="email"
                   value={email}
                   variant="outlined"
                 />
@@ -227,7 +222,6 @@ const SignIn = props => {
                 >
                   Entrar
                 </Button>
-
               </form>
             </div>
           </div>
