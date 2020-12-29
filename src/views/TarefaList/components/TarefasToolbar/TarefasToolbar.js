@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const UsersToolbar = props => {
+const TarefasToolbar = props => {
   const { className, ...rest } = props;
 
   const [descricao, setDescricao] = useState('');
@@ -45,8 +45,8 @@ const UsersToolbar = props => {
   const submit = event => {
     event.preventDefault();
     console.log(`Valores: descricao - ${descricao}, categoria - ${categoria}`);
-    setDescricao("")
-    setCategoria("")
+    setDescricao('')
+    setCategoria('')
   };
 
   return (
@@ -107,8 +107,8 @@ const UsersToolbar = props => {
   );
 };
 
-UsersToolbar.propTypes = {
+TarefasToolbar.propTypes = {
   className: PropTypes.string
 };
 
-export default UsersToolbar;
+export default TarefasToolbar;
