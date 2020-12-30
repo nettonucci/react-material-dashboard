@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/styles';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { listar, salvar } from '../../store/tarefasReducer';
+import { listar, salvar, deletar } from '../../store/tarefasReducer';
 //comentario para teste git
 
 import {
@@ -41,8 +41,6 @@ const TarefaList = props => {
     props.listar();
   }, []);
 
-
-
   const alterarStatus = id => {
     axios
       .patch(`${API_URL}/${id}`, null, {
@@ -65,32 +63,13 @@ const TarefaList = props => {
       });
   };
 
-  const deletar = id => {
-    axios
-      .delete(`${API_URL}/${id}`, {
-        headers: { 'x-tenant-id': localStorage.getItem('email_usuario_logado') }
-      })
-      .then(response => {
-        const lista = tarefas.filter(tarefa => tarefa.id !== id);
-        setTarefas(lista);
-        setMensagem('Item deletado com sucesso');
-        setOpenDialog(true);
-      })
-      .catch(erro => {
-        setMensagem('Ocorreu um erro', erro);
-        setOpenDialog(true);
-      });
-  };
-
-
-
   return (
     <div className={classes.root}>
       <TarefasToolbar salvar={props.salvar} />
       <div className={classes.content}>
         <TarefasTable
           alterarStatus={alterarStatus}
-          deleteAction={deletar}
+          deleteAction={props.deletar}
           tarefas={props.tarefas}
         />
       </div>
@@ -112,7 +91,8 @@ const mapStateToProps = state => ({
   tarefas: state.tarefas.tarefas
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ listar, salvar }, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ listar, salvar, deletar }, dispatch);
 
 export default connect(
   mapStateToProps,
