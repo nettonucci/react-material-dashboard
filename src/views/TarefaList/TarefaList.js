@@ -4,7 +4,12 @@ import { makeStyles } from '@material-ui/styles';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { listar, salvar, deletar } from '../../store/tarefasReducer';
+import {
+  listar,
+  salvar,
+  deletar,
+  alterarStatus
+} from '../../store/tarefasReducer';
 //comentario para teste git
 
 import {
@@ -14,8 +19,6 @@ import {
   DialogTitle,
   Button
 } from '@material-ui/core';
-
-import axios from 'axios';
 
 import { TarefasToolbar, TarefasTable } from './components';
 
@@ -31,44 +34,19 @@ const useStyles = makeStyles(theme => ({
 const TarefaList = props => {
   const classes = useStyles();
 
-  const [tarefas, setTarefas] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [mensagem, setMensagem] = useState('');
-
-  const API_URL = 'https://minhastarefas-api.herokuapp.com/tarefas';
 
   useEffect(() => {
     props.listar();
   }, []);
-
-  const alterarStatus = id => {
-    axios
-      .patch(`${API_URL}/${id}`, null, {
-        headers: { 'x-tenant-id': localStorage.getItem('email_usuario_logado') }
-      })
-      .then(response => {
-        const lista = [...tarefas];
-        lista.forEach(tarefa => {
-          if (tarefa.id === id) {
-            tarefa.done = true;
-          }
-        });
-        setTarefas(lista);
-        setMensagem('Item atualizado com sucesso');
-        setOpenDialog(true);
-      })
-      .catch(erro => {
-        setMensagem('Ocorreu um erro', erro);
-        setOpenDialog(true);
-      });
-  };
 
   return (
     <div className={classes.root}>
       <TarefasToolbar salvar={props.salvar} />
       <div className={classes.content}>
         <TarefasTable
-          alterarStatus={alterarStatus}
+          alterarStatus={props.alterarStatus}
           deleteAction={props.deletar}
           tarefas={props.tarefas}
         />
@@ -92,7 +70,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ listar, salvar, deletar }, dispatch);
+  bindActionCreators({ listar, salvar, deletar, alterarStatus }, dispatch);
 
 export default connect(
   mapStateToProps,
