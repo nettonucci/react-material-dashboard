@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { mostrarMensagem } from './mensagensReducer';
 
 const api = axios.create({
   baseURL: 'https://minhastarefas-api.herokuapp.com'
@@ -61,10 +62,13 @@ export function salvar(terafa) {
         headers: { 'x-tenant-id': localStorage.getItem('email_usuario_logado') }
       })
       .then(response => {
-        dispatch({
-          type: ACTIONS.ADD,
-          tarefa: response.data
-        });
+        dispatch([
+          {
+            type: ACTIONS.ADD,
+            tarefa: response.data
+          },
+          mostrarMensagem('Tarefa salva com sucesso!')
+        ]);
       });
   };
 }
@@ -76,10 +80,13 @@ export function deletar(id) {
         headers: { 'x-tenant-id': localStorage.getItem('email_usuario_logado') }
       })
       .then(response => {
-        dispatch({
-          type: ACTIONS.REMOVER,
-          id: id
-        });
+        dispatch([
+          {
+            type: ACTIONS.REMOVER,
+            id: id
+          },
+          mostrarMensagem('Tarefa deletada com sucesso!')
+        ]);
       });
   };
 }
@@ -91,10 +98,13 @@ export function alterarStatus(id) {
         headers: { 'x-tenant-id': localStorage.getItem('email_usuario_logado') }
       })
       .then(response => {
-        dispatch({
-          type: ACTIONS.UPDATE_STATUS,
-          id: id
-        });
+        dispatch([
+          {
+            type: ACTIONS.UPDATE_STATUS,
+            id: id
+          },
+          mostrarMensagem('Tarefa atualizada com sucesso!')
+        ]);
       });
   };
 }

@@ -10,6 +10,8 @@ import {
   deletar,
   alterarStatus
 } from '../../store/tarefasReducer';
+
+import { esconderMensagem } from '../../store/mensagensReducer';
 //comentario para teste git
 
 import {
@@ -34,9 +36,6 @@ const useStyles = makeStyles(theme => ({
 const TarefaList = props => {
   const classes = useStyles();
 
-  const [openDialog, setOpenDialog] = useState(false);
-  const [mensagem, setMensagem] = useState('');
-
   useEffect(() => {
     props.listar();
   }, []);
@@ -52,13 +51,13 @@ const TarefaList = props => {
         />
       </div>
       <Dialog
-        onClose={e => setOpenDialog(false)}
-        open={openDialog}
+        onClose={props.esconderMensagem}
+        open={props.openDialog}
       >
         <DialogTitle>Atenção</DialogTitle>
-        <DialogContent>{mensagem}</DialogContent>
+        <DialogContent>{props.mensagem}</DialogContent>
         <DialogActions>
-          <Button onClick={e => setOpenDialog(false)}>Fechar</Button>
+          <Button onClick={props.esconderMensagem}>Fechar</Button>
         </DialogActions>
       </Dialog>
     </div>
@@ -66,11 +65,16 @@ const TarefaList = props => {
 };
 
 const mapStateToProps = state => ({
-  tarefas: state.tarefas.tarefas
+  tarefas: state.tarefas.tarefas,
+  mensagem: state.mensagens.mensagem,
+  openDialog: state.mensagens.mostrarMensagem
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ listar, salvar, deletar, alterarStatus }, dispatch);
+  bindActionCreators(
+    { listar, salvar, deletar, alterarStatus, esconderMensagem },
+    dispatch
+  );
 
 export default connect(
   mapStateToProps,
