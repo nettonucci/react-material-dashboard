@@ -1,3 +1,7 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
+/* eslint-disable no-case-declarations */
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
