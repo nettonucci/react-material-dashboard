@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/styles';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { listar } from '../../store/tarefasReducer';
+import { listar, salvar } from '../../store/tarefasReducer';
 
 import {
   Dialog,
@@ -40,22 +40,7 @@ const TarefaList = props => {
     props.listar();
   }, []);
 
-  const salvar = tarefa => {
-    axios
-      .post(API_URL, tarefa, {
-        headers: { 'x-tenant-id': localStorage.getItem('email_usuario_logado') }
-      })
-      .then(response => {
-        setMensagem('Item adicionado com sucesso');
-        setOpenDialog(true);
-        const novaTarefa = response.data;
-        setTarefas([...tarefas, novaTarefa]);
-      })
-      .catch(erro => {
-        setMensagem('Ocorreu um erro');
-        setOpenDialog(true);
-      });
-  };
+
 
   const alterarStatus = id => {
     axios
@@ -100,7 +85,7 @@ const TarefaList = props => {
 
   return (
     <div className={classes.root}>
-      <TarefasToolbar salvar={salvar} />
+      <TarefasToolbar salvar={props.salvar} />
       <div className={classes.content}>
         <TarefasTable
           alterarStatus={alterarStatus}
@@ -126,7 +111,7 @@ const mapStateToProps = state => ({
   tarefas: state.tarefas.tarefas
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ listar }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ listar, salvar }, dispatch);
 
 export default connect(
   mapStateToProps,
