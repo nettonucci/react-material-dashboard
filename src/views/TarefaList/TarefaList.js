@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { listar, salvar } from '../../store/tarefasReducer';
+//comentario para teste git
 
 import {
   Dialog,
